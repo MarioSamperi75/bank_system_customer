@@ -3,6 +3,7 @@ package se.nackademin.model;
 public class Account {
 
     int id;
+    String accountNr;
     double balance;
     double intrest;
 
@@ -10,11 +11,13 @@ public class Account {
 
     public Account() {}
 
-    public Account(int id, double balance, double intrest) {
+    public Account(int id, String accountNr, double balance, double intrest) {
         this.id = id;
+        this.accountNr = accountNr;
         this.balance = balance;
         this.intrest = intrest;
     }
+
 
     // ---------------------------------------------------------------------
 
@@ -25,6 +28,14 @@ public class Account {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getAccountNr() {
+        return accountNr;
+    }
+
+    public void setAccountNr(String accountNr) {
+        this.accountNr = accountNr;
     }
 
     public double getBalance() {
@@ -43,7 +54,9 @@ public class Account {
         this.intrest = intrest;
     }
 
+
+
     public void print() {
-        System.out.println(" Balance: " + getBalance() + "KR  Intrest: " + getIntrest()+"%");
+        System.out.println("Account Nr: " + getAccountNr() + "\tBalance: " + getBalance() + "KR  \tIntrest: " + getIntrest()+"%");
     }
 }

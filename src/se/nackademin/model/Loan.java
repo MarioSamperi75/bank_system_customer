@@ -3,6 +3,7 @@ package se.nackademin.model;
 public class Loan {
 
     int id;
+    String loanNr;
     double capital;
     double intrest;
 
@@ -11,8 +12,9 @@ public class Loan {
 
     public Loan() {}
 
-    public Loan(int id, double capital, double intrest) {
+    public Loan(int id, String loanNr, double capital, double intrest) {
         this.id = id;
+        this.loanNr = loanNr;
         this.capital = capital;
         this.intrest = intrest;
     }
@@ -26,6 +28,14 @@ public class Loan {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getLoanNr() {
+        return loanNr;
+    }
+
+    public void setLoanNr(String loanNr) {
+        this.loanNr = loanNr;
     }
 
     public double getCapital() {
@@ -45,6 +55,6 @@ public class Loan {
     }
 
     public void print() {
-        System.out.println(" Capital: " + getCapital() + "KR  Intrest: " + getIntrest()+"%");
+        System.out.println("Loan Nr:    " + getLoanNr() + "\tCapital: " + getCapital() + "KR  \tIntrest: " + getIntrest()+"%");
     }
 }

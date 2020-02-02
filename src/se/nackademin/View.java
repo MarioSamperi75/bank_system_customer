@@ -14,6 +14,7 @@ public class View {
     public void start() {
         System.out.println();
         System.out.println("                    *****Bank System Customer*****");
+        System.out.println();
         controller.login();
     }
 
@@ -22,30 +23,28 @@ public class View {
     public void menu (){
         while (true) {
             System.out.println();
-            System.out.println("Overview(1) - Select Account(2) - Withdraw(3) - History(4) - Exit(5)");
+            System.out.println("Overview(1) - Withdraw(2) - History(3) - Exit(4)");
             String input = scanner.nextLine();
             switch (input) {
                 case "1":
                     controller.showAllAccount();
                     controller.showAllLoan();
                     break;
-/*                case "2":
-                    System.out.print("Add model: ");
-                    String model = scanner.nextLine().trim();
-                    System.out.print("Add color: ");
-                    String color = scanner.nextLine().trim();
-                    System.out.print("Add size: ");
-                    String size = scanner.nextLine().trim();
+                case "2":
+                    System.out.print("Add amount you want to withdraw: ");
+                    String input2 = scanner.nextLine().trim();
+                    Double withdrawal = Double.parseDouble(input2);
 
-                    controller.addItemInYourCart(model, color, size);
+                    System.out.print("Add account Nr: ");
+                    String accountNr = scanner.nextLine().trim();
+
+                    controller.selectAndWitdraw(withdrawal, accountNr);
                     break;
                case "3":
-                    controller.showAllProductsInYourCart();
+                   System.out.println("Vill du få VG :)?");
                     break;
-               case "4":
-                    controller.newOrder();
-                    break;
-*/                case "5":
+
+                case "4":
                     controller.exit();
                     break;
                 default:

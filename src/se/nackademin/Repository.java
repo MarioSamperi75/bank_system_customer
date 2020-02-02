@@ -89,6 +89,7 @@ public class Repository {
                     Category category = new Category(shoesFound.getInt("categoryID"), shoesFound.getString("Category"));
                     categoryList.add (category);*/
                     Account account = new Account(result.getInt("accountID"),
+                                                  result.getString("accountNr"),
                                                   result.getDouble("balance"),
                                                   result.getDouble("intrest"));
                     allAccount.put(mapCounter, account);
@@ -140,6 +141,7 @@ public class Repository {
 
             while (result.next()) {
                 Loan loan = new Loan(result.getInt("loanID"),
+                        result.getString("loanNr"),
                         result.getDouble("capital"),
                         result.getDouble("intrest"));
                 allLoan.put(mapCounter, loan);
@@ -194,7 +196,7 @@ public class Repository {
             }
 
             if (resultCounter == 0)
-                System.out.println("Product not found");
+                System.out.println("Account not found");
 
             if (resultCounter > 1) {
                 System.out.println("Sorry, an error occurred. Contact the Administrator.");
@@ -206,9 +208,9 @@ public class Repository {
         return accountIdFound;
     }
 
-/*
-    public void addToCart(int customerId, int ordersId, int shoesId) {
-        String query = "call addToCart(?,?,?);";
+
+    public void withdraw( int accountId, double withdrawal) {
+        String query = "call withdraw(?,?);";
         ResultSet result = null;
 
         try (Connection con = DriverManager.getConnection(
@@ -217,20 +219,21 @@ public class Repository {
                 p.getProperty("password"));
              CallableStatement stmt = con.prepareCall(query)) {
 
-            stmt.setInt(1, customerId);
-            stmt.setInt(2, ordersId);
-            stmt.setInt(3, shoesId);
+            stmt.setInt(1, accountId);
+            stmt.setDouble(2, withdrawal);
+
             result = stmt.executeQuery(); //che fai con sta variabile
 
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println( "Error. Operation aborted.");
+            System.exit(0);
 
         }
-        System.out.println( "The product was added to the cart");
+        System.out.println( "Transaction Complete");
     }
 
-
+/*
 
     public int getLastOrdersID(int customerIdInp) {
         String query =  "SELECT ordereditem.ordersID FROM ordereditem\n" +

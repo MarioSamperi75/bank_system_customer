@@ -11,7 +11,7 @@ public class Controller {
     Customer customer;
 
     int customerId = 0;
-    int orderId = 0;
+    int accountId = 0;
 
     public Controller() throws SQLException {}
 
@@ -42,20 +42,17 @@ public class Controller {
             System.out.println("Your loans: ");
             rep.getAllLoan(customer.getId()).forEach((k, v) -> v.print());
             System.out.println();
-            // bara för att prova metoden som fångar AccounID
-            System.out.println("accountNr di bill gates" + rep.getAccountID("1111111111A01"));
         }
 
-/*
-        public void addItemInYourCart(String model, String color, String size ) {
-            shoesId = rep.getOneProductID(model, color, size);
-            if (shoesId!=0) {
-                rep.addToCart(customer.getId(), orderId, shoesId);
-                orderId = (rep.getLastOrdersID(customer.getId()));
+
+        public void selectAndWitdraw(Double withdrawal, String accountNr ) {
+            accountId = rep.getAccountID(accountNr);
+            if (accountId!=0) {
+                rep.withdraw(accountId, withdrawal);
             }
         }
 
-
+/*
         public void showAllProductsInYourCart() {
             System.out.println("Your cart: ");
             rep.getProductsInTheCart(customer.getId(), orderId).forEach(c -> c.print());
