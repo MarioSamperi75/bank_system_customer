@@ -42,4 +42,8 @@ public class Account {
     public void setIntrest(double intrest) {
         this.intrest = intrest;
     }
+
+    public void print() {
+        System.out.println(getId() + " " + getBalance() + " " + getIntrest());
+    }
 }

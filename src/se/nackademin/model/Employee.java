@@ -14,8 +14,8 @@ public class Employee extends Person{
     }
 
     public Employee(int id, String firstname, String lastname, String personalNumber, int id1) {
-        super(id, firstname, lastname, personalNumber);
-        this.id = id1;
+        super(firstname, lastname, personalNumber);
+        this.id = id;
     }
 
     // ---------------------------------------------------------------------

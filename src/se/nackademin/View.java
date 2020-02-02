@@ -24,11 +24,11 @@ public class View {
             System.out.println();
             System.out.println("Overview(1) - Select Account(2) - Withdraw(3) - History(4) - Exit(5)");
             String input = scanner.nextLine();
-/*            switch (input) {
+            switch (input) {
                 case "1":
-                    controller.showAllProducts();
+                    controller.showAllAccount();
                     break;
-                case "2":
+/*                case "2":
                     System.out.print("Add model: ");
                     String model = scanner.nextLine().trim();
                     System.out.print("Add color: ");
@@ -44,13 +44,13 @@ public class View {
                case "4":
                     controller.newOrder();
                     break;
-                case "5":
+*/                case "5":
                     controller.exit();
                     break;
                 default:
                     System.out.println("Input error. Retry");
             }
-*/        }
+       }
     }
 
 

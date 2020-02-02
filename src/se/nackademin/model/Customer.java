@@ -19,8 +19,9 @@ public class Customer extends Person {
     }
 
     public Customer(int id, String firstname, String lastname, String personalNumber, String pin) {
-        super(id, firstname, lastname, personalNumber);
+        super(firstname, lastname, personalNumber);
         this.pin = pin;
+        this.id = id;
     }
 
     // ---------------------------------------------------------------------

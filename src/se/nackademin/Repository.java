@@ -60,37 +60,46 @@ public class Repository {
             System.out.println("Undefined Error");
             return null;
         }
-        System.out.println("Welcome, " + customer.getFirstname() + " " + customer.getLastname());
+        System.out.println("Welcome, " + customer.getId() +" "+ customer.getFirstname() + " " + customer.getLastname() + " " + customer.getPin());
         return customer;
     }
 
-/*
 
-    public Map<Integer, Shoes> getAllProducts() {
-        Map<Integer, Shoes> allshoes = new HashMap<>();
-        List<Category> categoryList = new ArrayList<>();
+
+    public Map<Integer, Account> getAllAccount(int customerIDInp) {
+        Map<Integer, Account> allAccount = new HashMap<>();
+        System.out.println(customerIDInp);
+        //List<Category> categoryList = new ArrayList<>();
         int mapCounter = 1;
         int checkShoesId = 0;
-        String query = "SELECT * from all_the_shoes";
+        String query = "SELECT * from account_view where customerID = ?;";
+        ResultSet result = null;
+
 
         try (Connection con = DriverManager.getConnection(
                 p.getProperty("connectionString"),
                 p.getProperty("name"),
                 p.getProperty("password"));
-             Statement stmt = con.createStatement();
-             ResultSet shoesFound = stmt.executeQuery(query)) {
+             PreparedStatement stmt = con.prepareStatement(query)) {
 
-            while (shoesFound.next()) {
-                if (checkShoesId == shoesFound.getInt("IDshoes")) {
+            stmt.setInt(1, customerIDInp);
+            result = stmt.executeQuery();
+
+            while (result.next()) {
+/*                if (checkShoesId == shoesFound.getInt("IDshoes")) {
                     Category category = new Category(shoesFound.getInt("categoryID"), shoesFound.getString("Category"));
-                    categoryList.add (category);
+                    categoryList.add (category);*/
+                    Account account = new Account(result.getInt("accountID"),
+                                                  result.getDouble("balance"),
+                                                  result.getDouble("intrest"));
+                    allAccount.put(mapCounter, account);
                     mapCounter++;
-                }
+               /* }
                 else {
                     categoryList = new ArrayList<>();
                     Brand brand = new Brand(shoesFound.getInt("brandID"), shoesFound.getString("Brand"));
                     Color color = new Color(shoesFound.getInt("colorID"), shoesFound.getString("Color"));
-                    Category category = new Category(shoesFound.getInt("categoryID"), shoesFound.getString("Category"));
+                    Account. category = new Category(shoesFound.getInt("categoryID"), shoesFound.getString("Category"));
                     categoryList.add(category);
                     Shoes shoes = new Shoes(shoesFound.getInt("IDshoes"), shoesFound.getString("model"),
                             shoesFound.getString("size"), shoesFound.getInt("price"),
@@ -104,15 +113,15 @@ public class Repository {
                     mapCounter++;
 
                 }
-            }
-        } catch (Exception e) {
+            }*/
+        } }catch (Exception e) {
             e.printStackTrace();
         }
-        return allshoes;
+        return allAccount;
     }
 
 
-    public int getOneProductID(String shoesModelInp, String shoesColorInp, String shoesSizeInp) {
+/*    public int getOneProductID(String shoesModelInp, String shoesColorInp, String shoesSizeInp) {
         String query = "SELECT * FROM shoesdb.all_the_shoes \n" +
                         "where model = ?\n" +
                         "and color = ?\n" +

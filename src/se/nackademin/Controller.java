@@ -10,8 +10,7 @@ public class Controller {
     Repository rep = new Repository();
     Customer customer;
 
-    String model;
-    int shoesId = 0;
+    int customerId = 0;
     int orderId = 0;
 
     public Controller() throws SQLException {}
@@ -28,19 +27,22 @@ public class Controller {
                 pin = sc.nextLine().trim();
 
                 customer = rep.checkpassword(personalNumber, pin);
+                System.out.println(customer);
+                System.out.println("från login: " + customer.getId());;
                 if (customer != null)
                     break;
             }
         }
 
 
-       /* public void showAllProducts() {
+        public void showAllAccount() {
             System.out.println("All the products: ");
-            rep.getAllProducts().forEach((k, v) -> v.print());
+            System.out.println("controller: " + customer.getId());
+            rep.getAllAccount(customer.getId()).forEach((k, v) -> v.print());
             System.out.println();
         }
 
-
+/*
         public void addItemInYourCart(String model, String color, String size ) {
             shoesId = rep.getOneProductID(model, color, size);
             if (shoesId!=0) {
@@ -62,11 +64,11 @@ public class Controller {
             System.out.println("New order - Your cart is empty.");
         }
 
-
+*/
     public void exit() {
         System.out.println("See you soon!");
         System.exit(0);
     }
-*/
+
 
 }
