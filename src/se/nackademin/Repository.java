@@ -71,7 +71,7 @@ public class Repository {
         //List<Category> categoryList = new ArrayList<>();
         int mapCounter = 1;
         int checkShoesId = 0;
-        String query = "SELECT * from account_view where customerID = ?;";
+        String query = "SELECT * from account_view where customerID = ? group by accountID;";
         ResultSet result = null;
 
 
@@ -120,14 +120,63 @@ public class Repository {
     }
 
 
-/*    public int getOneProductID(String shoesModelInp, String shoesColorInp, String shoesSizeInp) {
-        String query = "SELECT * FROM shoesdb.all_the_shoes \n" +
-                        "where model = ?\n" +
-                        "and color = ?\n" +
-                        "and size = ?\n" +
+    public Map<Integer, Loan> getAllLoan(int customerIDInp) {
+        Map<Integer, Loan> allLoan = new HashMap<>();
+        //List<Category> categoryList = new ArrayList<>();
+        int mapCounter = 1;
+        int checkShoesId = 0;
+        String query = "SELECT * from loan_view where customerID = ? group by loanID;";
+        ResultSet result = null;
+
+
+        try (Connection con = DriverManager.getConnection(
+                p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, customerIDInp);
+            result = stmt.executeQuery();
+
+            while (result.next()) {
+                Loan loan = new Loan(result.getInt("loanID"),
+                        result.getDouble("capital"),
+                        result.getDouble("intrest"));
+                allLoan.put(mapCounter, loan);
+                mapCounter++;
+               /* }
+                else {
+                    categoryList = new ArrayList<>();
+                    Brand brand = new Brand(shoesFound.getInt("brandID"), shoesFound.getString("Brand"));
+                    Color color = new Color(shoesFound.getInt("colorID"), shoesFound.getString("Color"));
+                    Account. category = new Category(shoesFound.getInt("categoryID"), shoesFound.getString("Category"));
+                    categoryList.add(category);
+                    Shoes shoes = new Shoes(shoesFound.getInt("IDshoes"), shoesFound.getString("model"),
+                            shoesFound.getString("size"), shoesFound.getInt("price"),
+                            shoesFound.getInt("storage"));
+                    shoes.setBrand(brand);
+                    shoes.setColor(color);
+                    shoes.setCategoryList(categoryList);
+                    allshoes.put(mapCounter, shoes);
+
+                    checkShoesId = shoesFound.getInt("IDshoes");
+                    mapCounter++;
+
+                }
+            }*/
+            } }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return allLoan;
+    }
+
+
+    public int getAccountID(String accountNrInp) {
+        String query = "SELECT account.id FROM bankdb.account\n" +
+                        "where accountNr = ? \n" +
                         "limit 1;";
         ResultSet result = null;
-        int shoesIdFound = 0;
+        int accountIdFound = 0;
         int resultCounter = 0;
 
         try (Connection con = DriverManager.getConnection(
@@ -136,13 +185,11 @@ public class Repository {
                 p.getProperty("password"));
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, shoesModelInp);
-            stmt.setString(2, shoesColorInp);
-            stmt.setString(3, shoesSizeInp);
+            stmt.setString(1, accountNrInp);
             result = stmt.executeQuery();
 
             while (result.next()) {
-                shoesIdFound = result.getInt("all_the_shoes.IDshoes");
+                accountIdFound = result.getInt("account.id");
                 resultCounter++;
             }
 
@@ -156,10 +203,10 @@ public class Repository {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return shoesIdFound;
+        return accountIdFound;
     }
 
-
+/*
     public void addToCart(int customerId, int ordersId, int shoesId) {
         String query = "call addToCart(?,?,?);";
         ResultSet result = null;

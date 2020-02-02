@@ -27,6 +27,7 @@ public class View {
             switch (input) {
                 case "1":
                     controller.showAllAccount();
+                    controller.showAllLoan();
                     break;
 /*                case "2":
                     System.out.print("Add model: ");

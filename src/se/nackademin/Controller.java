@@ -38,6 +38,14 @@ public class Controller {
             System.out.println();
         }
 
+        public void showAllLoan() {
+            System.out.println("Your loans: ");
+            rep.getAllLoan(customer.getId()).forEach((k, v) -> v.print());
+            System.out.println();
+            // bara för att prova metoden som fångar AccounID
+            System.out.println("accountNr di bill gates" + rep.getAccountID("1111111111A01"));
+        }
+
 /*
         public void addItemInYourCart(String model, String color, String size ) {
             shoesId = rep.getOneProductID(model, color, size);

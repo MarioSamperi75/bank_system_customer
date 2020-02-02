@@ -44,6 +44,6 @@ public class Account {
     }
 
     public void print() {
-        System.out.println(getId() + " " + getBalance() + " " + getIntrest());
+        System.out.println(" Balance: " + getBalance() + "KR  Intrest: " + getIntrest()+"%");
     }
 }

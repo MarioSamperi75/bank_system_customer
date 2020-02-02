@@ -43,4 +43,8 @@ public class Loan {
     public void setIntrest(double intrest) {
         this.intrest = intrest;
     }
+
+    public void print() {
+        System.out.println(" Capital: " + getCapital() + "KR  Intrest: " + getIntrest()+"%");
+    }
 }
