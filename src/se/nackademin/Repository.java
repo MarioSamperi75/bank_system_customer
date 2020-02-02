@@ -60,7 +60,7 @@ public class Repository {
             System.out.println("Undefined Error");
             return null;
         }
-        System.out.println("Welcome, " + customer.getId() +" "+ customer.getFirstname() + " " + customer.getLastname() + " " + customer.getPin());
+        System.out.println("Welcome, " + customer.getFirstname() + " " + customer.getLastname());
         return customer;
     }
 
@@ -68,7 +68,6 @@ public class Repository {
 
     public Map<Integer, Account> getAllAccount(int customerIDInp) {
         Map<Integer, Account> allAccount = new HashMap<>();
-        System.out.println(customerIDInp);
         //List<Category> categoryList = new ArrayList<>();
         int mapCounter = 1;
         int checkShoesId = 0;

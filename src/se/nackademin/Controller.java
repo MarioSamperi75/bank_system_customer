@@ -25,10 +25,7 @@ public class Controller {
                 personalNumber = sc.nextLine().trim();
                 System.out.println("pin: ");
                 pin = sc.nextLine().trim();
-
                 customer = rep.checkpassword(personalNumber, pin);
-                System.out.println(customer);
-                System.out.println("från login: " + customer.getId());;
                 if (customer != null)
                     break;
             }
@@ -36,8 +33,7 @@ public class Controller {
 
 
         public void showAllAccount() {
-            System.out.println("All the products: ");
-            System.out.println("controller: " + customer.getId());
+            System.out.println("Your accounts: ");
             rep.getAllAccount(customer.getId()).forEach((k, v) -> v.print());
             System.out.println();
         }
