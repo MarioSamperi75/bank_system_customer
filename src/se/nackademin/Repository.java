@@ -64,7 +64,7 @@ public class Repository {
         return customer;
     }
 
-
+//hej
 
     public Map<Integer, Account> getAllAccount(int customerIDInp) {
         Map<Integer, Account> allAccount = new HashMap<>();
