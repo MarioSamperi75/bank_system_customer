@@ -1,4 +1,4 @@
-package se.nackademin;
+package se.nackademin.customer;
 
 import se.nackademin.model.*;
 
@@ -6,11 +6,11 @@ import java.io.FileInputStream;
 import java.sql.*;
 import java.util.*;
 
-public class Repository {
+public class Repository_C {
 
     private Properties p = new Properties();
 
-    public Repository() throws SQLException {
+    public Repository_C() throws SQLException {
         try {
             p.load(new FileInputStream("resources/settings.properties"));
             Class.forName("com.mysql.cj.jdbc.Driver");

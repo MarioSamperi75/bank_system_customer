@@ -1,19 +1,19 @@
-package se.nackademin;
+package se.nackademin.customer;
 
 import se.nackademin.model.Customer;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class Controller {
+public class Controller_C {
 
-    Repository rep = new Repository();
+    Repository_C rep = new Repository_C();
     Customer customer;
 
     int customerId = 0;
     int accountId = 0;
 
-    public Controller() throws SQLException {}
+    public Controller_C() throws SQLException {}
 
         public void login() {
             String personalNumber;

@@ -18,6 +18,10 @@ public class Customer extends Person {
         this.pin = pin;
     }
 
+    public Customer(int id, String firstname, String lastname, String personalNumber) {
+        super(firstname, lastname, personalNumber);
+    }
+
     public Customer(int id, String firstname, String lastname, String personalNumber, String pin) {
         super(firstname, lastname, personalNumber);
         this.pin = pin;
@@ -59,5 +63,11 @@ public class Customer extends Person {
 
     public void setLoanList(List<Loan> loanList) {
         this.loanList = loanList;
+    }
+
+
+
+    public void print() {
+        System.out.println("Firstname: " + getFirstname() + "\tLastname: " + getLastname() + "KR  \tPersonalNr: " + getPersonalNumber());
     }
 }
