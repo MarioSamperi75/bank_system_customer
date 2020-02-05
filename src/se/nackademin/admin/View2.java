@@ -45,24 +45,18 @@ public class View2 {
             String input = scanner.nextLine();
             switch (input) {
                 case "1":
-                    controllerA.deleteCustomer(customer, employee);
+                    controllerA.deleteCustomer(customer);
+                    View1 v1 = new View1();
                     break;
                 case "2":
-                   /* System.out.print("Add amount you want to withdraw: ");
-                    String input2 = scanner.nextLine().trim();
-                    Double withdrawal = Double.parseDouble(input2);
 
-                    System.out.print("Add account Nr: ");
-                    String accountNr = scanner.nextLine().trim();
-
-                    controllerA.selectAndWitdraw(withdrawal, accountNr);*/
                     break;
                case "3":
-
+                   controllerA.newAccount(customer);
                     break;
 
                 case "4":
-
+                    System.out.println(customer.getId() + customer.getFirstname());
                     break;
 
                 case "5":
@@ -82,7 +76,7 @@ public class View2 {
                     break;
 
                 case "9":
-                    View1 v1 = new View1();
+                    v1 = new View1();
                     break;
 
                 default:

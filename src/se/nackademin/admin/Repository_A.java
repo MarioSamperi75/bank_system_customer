@@ -21,7 +21,7 @@ public class Repository_A {
         }
     }
 
-    public void add_newCustomer( String firstnameInp, String lastnameInp, String personNrInp, String pinInp) {
+    public void add_newCustomer(String firstnameInp, String lastnameInp, String personNrInp, String pinInp) {
         String query = "call add_newCustomer(?,?,?,?);";
         ResultSet result = null;
 
@@ -40,11 +40,11 @@ public class Repository_A {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println( "Error. Operation aborted.");
+            System.out.println("Error. Operation aborted.");
             System.exit(0);
 
         }
-        System.out.println( "A New Customer was added");
+        System.out.println("A New Customer was added");
     }
 
 
@@ -53,9 +53,9 @@ public class Repository_A {
         //List<Category> categoryList = new ArrayList<>();
         int mapCounter = 1;
         int checkShoesId = 0;
-        String query =  "SELECT customer.id, firstname, lastname, personalnumber FROM bankdb.person\n" +
-                        "join customer\n" +
-                        "where customer.personid = person.id;";
+        String query = "SELECT customer.id, firstname, lastname, personalnumber, customer.pin FROM bankdb.person\n" +
+                "join customer\n" +
+                "where customer.personid = person.id;";
         ResultSet result = null;
 
 
@@ -68,24 +68,26 @@ public class Repository_A {
 
             while (result.next()) {
                 Customer customer = new Customer(result.getInt("customer.id"),
-                                                 result.getString("firstname"),
-                                                 result.getString("lastname"),
-                                                 result.getString("personalnumber"));
+                        result.getString("firstname"),
+                        result.getString("lastname"),
+                        result.getString("personalnumber"),
+                        result.getString("customer.pin"));
 
                 allCustomer.put(mapCounter, customer);
                 mapCounter++;
 
-            } }catch (Exception e) {
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return allCustomer;
     }
 
     public Customer getCustomer(String pesnumInp) {
-        String query =  "SELECT customer.id, person.firstname, person.lastname, person.personalnumber FROM bankdb.customer\n" +
-                        "inner join person\n" +
-                        "on person.id = customer.personid\n" +
-                        "where person.personalnumber = ?;";
+        String query = "SELECT customer.id, person.firstname, person.lastname, person.personalnumber, customer.pin FROM bankdb.customer\n" +
+                "inner join person\n" +
+                "on person.id = customer.personid\n" +
+                "where person.personalnumber = ?;";
 
         ResultSet result = null;
         Customer customerFound = null;
@@ -101,11 +103,12 @@ public class Repository_A {
             result = stmt.executeQuery();
 
             while (result.next()) {
-                        customerFound = new Customer(
+                customerFound = new Customer(
                         result.getInt("customer.id"),
                         result.getString("firstname"),
                         result.getString("lastname"),
-                        result.getString("personalnumber"));
+                        result.getString("personalnumber"),
+                        result.getString("customer.pin"));
 
                 resultCounter++;
 
@@ -130,7 +133,7 @@ public class Repository_A {
         Employee employee = null;
         ResultSet result = null;
         int resultcounter = 0;
-        String query =  "SELECT employee.id, person.firstname, person.lastname, person.personalNumber, employee.pin\n" +
+        String query = "SELECT employee.id, person.firstname, person.lastname, person.personalNumber, employee.pin\n" +
                 "                        from person\n" +
                 "                        inner join employee\n" +
                 "                        on employee.personId = person.id\n" +
@@ -140,7 +143,7 @@ public class Repository_A {
                 p.getProperty("connectionString"),
                 p.getProperty("name"),
                 p.getProperty("password"));
-            PreparedStatement stmt = con.prepareStatement(query)) {
+             PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, personalNumberInp);
             stmt.setString(2, pinInp);
             result = stmt.executeQuery();
@@ -173,10 +176,10 @@ public class Repository_A {
 
 
     public void deleteCustomer(String personalNumberID) {
-        String query =  "DELETE person.* FROM person\n" +
-                        "inner join customer\n" +
-                        "on person.id = customer.personid\n" +
-                        "where personalnumber= ? ;";
+        String query = "DELETE person.* FROM person\n" +
+                "inner join customer\n" +
+                "on person.id = customer.personid\n" +
+                "where personalnumber= ? ;";
         ResultSet result = null;
 
         try (Connection con = DriverManager.getConnection(
@@ -195,8 +198,34 @@ public class Repository_A {
         }
     }
 
+
+    public void createAccount( String accountNrInp, double balanceInp,  double interestInp,  int customerIdInp ) {
+        String query = "call create_new_account(?,?, ?, ?);";
+
+        try (Connection con = DriverManager.getConnection(
+                p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+             CallableStatement stmt = con.prepareCall(query)) {
+
+            stmt.setString (1, accountNrInp);
+            stmt.setDouble (2, balanceInp);
+            stmt.setDouble (3, interestInp);
+            stmt.setInt (4, customerIdInp);
+
+            stmt.executeQuery();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println( "Error. Operation aborted.");
+            System.exit(0);
+
+        }
+        System.out.println( "New Account created");
+    }
+
+
 /*
-//hej
 
     public Map<Integer, Account> getAllAccount(int customerIDInp) {
         Map<Integer, Account> allAccount = new HashMap<>();
@@ -217,16 +246,16 @@ public class Repository_A {
             result = stmt.executeQuery();
 
             while (result.next()) {
-*//*                if (checkShoesId == shoesFound.getInt("IDshoes")) {
+               if (checkShoesId == shoesFound.getInt("IDshoes")) {
                     Category category = new Category(shoesFound.getInt("categoryID"), shoesFound.getString("Category"));
-                    categoryList.add (category);*//*
+                    categoryList.add (category);
                     Account account = new Account(result.getInt("accountID"),
                                                   result.getString("accountNr"),
                                                   result.getDouble("balance"),
                                                   result.getDouble("intrest"));
                     allAccount.put(mapCounter, account);
                     mapCounter++;
-               *//* }
+                }
                 else {
                     categoryList = new ArrayList<>();
                     Brand brand = new Brand(shoesFound.getInt("brandID"), shoesFound.getString("Brand"));
@@ -245,7 +274,7 @@ public class Repository_A {
                     mapCounter++;
 
                 }
-            }*//*
+            }
         } }catch (Exception e) {
             e.printStackTrace();
         }
@@ -278,7 +307,7 @@ public class Repository_A {
                         result.getDouble("intrest"));
                 allLoan.put(mapCounter, loan);
                 mapCounter++;
-               *//* }
+                }
                 else {
                     categoryList = new ArrayList<>();
                     Brand brand = new Brand(shoesFound.getInt("brandID"), shoesFound.getString("Brand"));
@@ -297,7 +326,7 @@ public class Repository_A {
                     mapCounter++;
 
                 }
-            }*//*
+            }
             } }catch (Exception e) {
             e.printStackTrace();
         }
@@ -365,7 +394,7 @@ public class Repository_A {
         System.out.println( "Transaction Complete");
     }
 
-*//*
+
 
     public int getLastOrdersID(int customerIdInp) {
         String query =  "SELECT ordereditem.ordersID FROM ordereditem\n" +
@@ -428,8 +457,8 @@ public class Repository_A {
             shoesFound = stmt.executeQuery();
 
             while (shoesFound.next()) {
-                if (checkOrderedItemId == shoesFound.getInt("IDorderedItem") *//*
-*//*|| checkShoesId == shoesFound.getInt("IDShoes")*//**//*
+                if (checkOrderedItemId == shoesFound.getInt("IDorderedItem")
+|| checkShoesId == shoesFound.getInt("IDShoes")
 ) {
                     Category category = new Category(shoesFound.getInt("categoryID"), shoesFound.getString("Category"));
                     categoryList.add (category);
@@ -456,9 +485,10 @@ public class Repository_A {
         }
         return shoesList;
     }
-*//*
-*/
+
 }
 
 
 
+*/
+}

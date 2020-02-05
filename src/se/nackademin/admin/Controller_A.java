@@ -45,7 +45,7 @@ public class Controller_A {
             String firstname = sc.nextLine().trim();
             System.out.println("Insert lastname: ");
             String lastname = sc.nextLine().trim();
-            System.out.println("Insert lastname: ");
+            System.out.println("Insert personal number: ");
             String personalnumber = sc.nextLine().trim();
             System.out.println("Insert pin: "); //check om det finns
             String pin = sc.nextLine().trim();
@@ -68,10 +68,39 @@ public class Controller_A {
             return this.customer;
             }
 
-        public void deleteCustomer(Customer customer, Employee employee) {
+        public void deleteCustomer(Customer customer) {
             rep.deleteCustomer(customer.getPersonalNumber());
     }
+// accountNrInp varchar(50),balance double, interestInp double,   customerIdInp int
+        public Customer newAccount(Customer customer) {
 
+            Double interestInp=null;
+            Double balance=null;
+
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Insert a name for the account: ");
+            String accountNrInp = sc.nextLine().trim();
+
+            System.out.println("Insert a intrest rate: ");
+            String input = sc.nextLine().trim();
+            try {
+                interestInp = Double.parseDouble(input);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Insert a initial deposit: ");
+            input = sc.nextLine().trim();
+            try {
+                balance= Double.parseDouble(input);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+
+            int customerIdInp = customer.getId();
+
+            rep.createAccount(accountNrInp, balance,  interestInp,  customerIdInp );
+            return this.customer;
+        }
 
 /*
         public void showAllProductsInYourCart() {

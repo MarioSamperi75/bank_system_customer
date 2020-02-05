@@ -14,13 +14,13 @@ public class Customer extends Person {
 
     public Customer() {}
 
-    public Customer(String pin) {
+   /* public Customer(String pin) {
         this.pin = pin;
-    }
+    }*/
 
-    public Customer(int id, String firstname, String lastname, String personalNumber) {
+   /* public Customer(int id, String firstname, String lastname, String personalNumber) {
         super(firstname, lastname, personalNumber);
-    }
+    }*/
 
     public Customer(int id, String firstname, String lastname, String personalNumber, String pin) {
         super(firstname, lastname, personalNumber);
