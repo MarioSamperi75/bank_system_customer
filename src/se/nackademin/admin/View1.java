@@ -31,7 +31,7 @@ public class View1 {
     public void menu () throws SQLException {
         while (true) {
             System.out.println();
-            System.out.println("New Customer(1) - Customer List(2) - Select Customer(3) - Exit(4)");
+            System.out.println("New Customer(1) - Customer List(2) - Select Menu Customer(3) - Exit(4)");
             String input = scanner.nextLine();
             switch (input) {
                 case "1":

@@ -29,8 +29,8 @@ public class View2 {
     //METHODS
     public void start() throws SQLException {
         System.out.println();
-        System.out.println("                    *****Employee: " + employee.getLastname() +
-                            "             Customer: "+ customer.getFirstname() + " " + customer.getLastname() + " *****");
+        System.out.println("                    ***** Employee: " + employee.getLastname() +
+                           "             Customer: "+ customer.getFirstname() + " " + customer.getLastname() + " *****");
         System.out.println();
         menu();
     }
@@ -40,10 +40,8 @@ public class View2 {
     public void menu () throws SQLException {
         while (true) {
             System.out.println();
-            System.out.println("Delete Customer(1) - Data Update(2)\n" +
-                               "New account(3)     - Account List(4) - Select Account (5)\n" +
-                               "New Loan(6)        - Loan List(7)    - Select Loan (8)\n" +
-                               "Main(9)");
+            System.out.println("Delete Customer(1) - Data Update(2) - New account(3) - Account List(4) -  New Loan(5) - Loan List(6) \n" +
+                               "        Select Menu Account (7)     -     Select Menu Loan (8)     -     Main(9)");
             String input = scanner.nextLine();
             switch (input) {
                 case "1":
@@ -68,7 +66,7 @@ public class View2 {
                     break;
 
                 case "5":
-                    View3a v3a = new View3a();
+
                     break;
 
                 case "6":
@@ -76,7 +74,7 @@ public class View2 {
                     break;
 
                 case "7":
-
+                    View3a v3a = new View3a();
                     break;
 
                 case "8":
