@@ -3,6 +3,7 @@
 package se.nackademin.admin;
 
 import se.nackademin.model.Customer;
+import se.nackademin.model.Employee;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -11,10 +12,13 @@ public class View2 {
     Scanner scanner = new Scanner(System.in);
     Controller_A controllerA = new Controller_A();
     Customer customer;
+    Employee employee;
 
 
-    public View2(Customer customer) throws SQLException {
+    public View2(Customer customer, Employee employee) throws SQLException {
         this.customer = customer;
+        this.employee = employee;
+        Controller_A controllerA = new Controller_A(customer,employee);
         start();
     }
 
@@ -25,7 +29,8 @@ public class View2 {
     //METHODS
     public void start() throws SQLException {
         System.out.println();
-        System.out.println("                    *****Customer: "+ customer.getFirstname() + " " + customer.getLastname() + " *****");
+        System.out.println("                    *****Employee: " + employee.getLastname() +
+                            "             Customer: "+ customer.getFirstname() + " " + customer.getLastname() + " *****");
         System.out.println();
         menu();
     }

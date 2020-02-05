@@ -3,6 +3,7 @@
 package se.nackademin.admin;
 
 import se.nackademin.model.Customer;
+import se.nackademin.model.Employee;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -10,6 +11,7 @@ import java.util.Scanner;
 public class View1 {
     Scanner scanner = new Scanner(System.in);
     Controller_A controllerA = new Controller_A();
+    Employee employee= null;
 
     public View1() throws SQLException {
         start();
@@ -20,7 +22,7 @@ public class View1 {
         System.out.println();
         System.out.println("                    *****Bank System Admin*****");
         System.out.println();
-        controllerA.login();
+        employee = controllerA.login();
         menu();
     }
 
@@ -47,8 +49,9 @@ public class View1 {
                     controllerA.selectAndWitdraw(withdrawal, accountNr);*/
                     break;
                case "3":
+
                    Customer customer = controllerA.selectCustomer();
-                   View2 v2 = new View2(customer);
+                   View2 v2 = new View2(customer, employee);
                    break;
 
                 case "4":

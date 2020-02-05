@@ -170,6 +170,30 @@ public class Repository_A {
         System.out.println("Welcome, " + employee.getFirstname() + " " + employee.getLastname());
         return employee;
     }
+
+
+    public void deleteCustomer(String personalNumberID) {
+        String query =  "DELETE person.* FROM person\n" +
+                        "inner join customer\n" +
+                        "on person.id = customer.personid\n" +
+                        "where personalnumber= ? ;";
+        ResultSet result = null;
+
+        try (Connection con = DriverManager.getConnection(
+                p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, personalNumberID);
+            result = stmt.executeQuery();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 /*
 //hej
 

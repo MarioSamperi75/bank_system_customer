@@ -16,7 +16,12 @@ public class Controller_A {
 
     public Controller_A() throws SQLException {}
 
-       public void login() {
+    public Controller_A(Customer customer, Employee employee) throws SQLException {
+        this.customer = customer;
+        this.employee = employee;
+    }
+
+    public Employee login() {
             String personalNumber;
             String pin;
             Scanner sc = new Scanner(System.in);
@@ -26,10 +31,11 @@ public class Controller_A {
                 personalNumber = sc.nextLine().trim();
                 System.out.println("pin: ");
                 pin = sc.nextLine().trim();
-                employee = rep.checkpassword(personalNumber, pin);
+                this.employee = rep.checkpassword(personalNumber, pin);
                 if (employee != null)
                     break;
             }
+            return this.employee;
         }
 
 
@@ -61,6 +67,14 @@ public class Controller_A {
             this.customer = rep.getCustomer(pernumInp);
             return this.customer;
             }
+
+        public void deleteCustomer() {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Insert customer personal Number: ");
+            String pernumInp = sc.nextLine().trim();
+            this.customer = rep.getCustomer(pernumInp);
+
+    }
 
 
 /*
