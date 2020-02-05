@@ -125,6 +125,13 @@ public class Controller_A {
     }
 
 
+        public void deleteAccount(Customer customer) throws SQLException {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Insert account number: ");
+            String accountNr = sc.nextLine().trim();
+            rep.deleteAccount(accountNr,customer.getId());
+    }
+
 /*
         public void showAllProductsInYourCart() {
             System.out.println("Your cart: ");

@@ -1,2 +1,4 @@
 # Project exclude paths
 /out/
+*.xml
+/src/se/nackademin/model/settings.properties

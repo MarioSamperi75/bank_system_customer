@@ -2,20 +2,24 @@
 
 package se.nackademin.admin;
 
+import se.nackademin.model.Customer;
+
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class View3a {
     Scanner scanner = new Scanner(System.in);
     Controller_A controllerA = new Controller_A();
+    Customer customer;
 
-    public View3a() throws SQLException {
+    public View3a(Customer customer) throws SQLException {
+        this.customer = customer;
         start();
     }
 
     public void start() throws SQLException {
         System.out.println();
-        System.out.println("                    *****CustomerXXX, AccountXXX *****");
+        System.out.println("                    *****Customer: "+customer.getFirstname() +" "+ customer.getLastname()+" , Account*****");
         System.out.println();
         menu();
 
@@ -30,8 +34,8 @@ public class View3a {
             String input = scanner.nextLine();
             switch (input) {
                 case "1":
-                    /*controllerA.showAllAccount();
-                    controllerA.showAllLoan();*/
+                    controllerA.deleteAccount(customer);
+                    //controllerA.showAllLoan();
                     break;
                 case "2":
                    /* System.out.print("Add amount you want to withdraw: ");
@@ -62,10 +66,3 @@ public class View3a {
     }
 
 }
-
-
-
-//quando si scrive "" nel modello
-
-
-//visa flera av samma
