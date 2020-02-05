@@ -48,15 +48,10 @@ public class View2 {
                     controllerA.deleteCustomer(customer, employee);
                     break;
                 case "2":
-                   /* System.out.print("Add amount you want to withdraw: ");
-                    String input2 = scanner.nextLine().trim();
-                    Double withdrawal = Double.parseDouble(input2);
-
-                    System.out.print("Add account Nr: ");
-                    String accountNr = scanner.nextLine().trim();
-
-                    controllerA.selectAndWitdraw(withdrawal, accountNr);*/
+                    ViewCustomerDataUpdate viewCustomerDataUpdate = new ViewCustomerDataUpdate(customer,employee);
+                    viewCustomerDataUpdate.start();
                     break;
+
                case "3":
 
                     break;

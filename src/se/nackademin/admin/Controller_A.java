@@ -72,6 +72,36 @@ public class Controller_A {
             rep.deleteCustomer(customer.getPersonalNumber());
     }
 
+        public void updateCustomerLastname(){
+            Scanner sc = new Scanner(System.in);
+            System.out.println("What is the new lastname? ");
+            String newLastname = sc.nextLine().trim();
+            rep.updateCustomerLastname(newLastname,customer.getPersonalNumber());
+        }
+
+        public void updateCustomerFirstname(){
+            Scanner sc = new Scanner(System.in);
+            System.out.println("What is the new firstname? ");
+            String newfirstname = sc.nextLine().trim();
+            rep.updateCustomerFirstname(newfirstname,customer.getPersonalNumber());
+        }
+
+        public void updateCustomerPersonalNumber(){
+            Scanner sc = new Scanner(System.in);
+            System.out.println("What is the new personalNumber? ");
+            String newPersonalNumber = sc.nextLine().trim();
+            rep.updateCustomerPersonalNumber(newPersonalNumber,customer.getPersonalNumber());
+
+        }
+
+        public void changeCustomerPin(){
+            Scanner sc = new Scanner(System.in);
+            System.out.println("What is the new password? ");
+            String newPassword = sc.nextLine().trim();
+            rep.changeCustomerPin(newPassword,customer.getId());
+
+        }
+
 
 /*
         public void showAllProductsInYourCart() {
