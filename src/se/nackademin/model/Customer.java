@@ -20,6 +20,7 @@ public class Customer extends Person {
 
     public Customer(int id, String firstname, String lastname, String personalNumber) {
         super(firstname, lastname, personalNumber);
+        this.id = id;
     }
 
     public Customer(int id, String firstname, String lastname, String personalNumber, String pin) {

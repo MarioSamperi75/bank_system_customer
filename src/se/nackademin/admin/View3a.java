@@ -13,7 +13,6 @@ public class View3a {
         start();
     }
 
-    //METHODS
     public void start() throws SQLException {
         System.out.println();
         System.out.println("                    *****CustomerXXX, AccountXXX *****");

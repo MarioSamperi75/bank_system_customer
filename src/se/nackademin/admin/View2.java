@@ -18,7 +18,7 @@ public class View2 {
     public View2(Customer customer, Employee employee) throws SQLException {
         this.customer = customer;
         this.employee = employee;
-        Controller_A controllerA = new Controller_A(customer,employee);
+        controllerA = new Controller_A(customer,employee);
         start();
     }
 
@@ -65,6 +65,7 @@ public class View2 {
                     break;
 
                 case "6":
+                    controllerA.showAllLoans();
 
                     break;
 
@@ -73,7 +74,7 @@ public class View2 {
                     break;
 
                 case "8":
-                    View3b v3b= new View3b();
+                    View3b v3b= new View3b(controllerA);
                     break;
 
                 case "9":

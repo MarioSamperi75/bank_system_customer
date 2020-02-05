@@ -55,6 +55,6 @@ public class Loan {
     }
 
     public void print() {
-        System.out.println("Loan Nr:    " + getLoanNr() + "\tCapital: " + getCapital() + "KR  \tIntrest: " + getIntrest()+"%");
+        System.out.println("Loan Id: " + getId() + "\tLoan Nr:    " + getLoanNr() + "\tCapital: " + getCapital() + "KR  \tIntrest: " + getIntrest()+"%");
     }
 }

@@ -2,19 +2,22 @@ package se.nackademin.admin;
 
 import se.nackademin.model.Customer;
 import se.nackademin.model.Employee;
+import se.nackademin.model.Loan;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Controller_A {
 
     Repository_A rep = new Repository_A();
-    Customer customer=null;
-    Employee employee=null;
+    Customer customer = null;
+    Employee employee = null;
 
 
 
-    public Controller_A() throws SQLException {}
+    public Controller_A() throws SQLException {
+    }
 
     public Controller_A(Customer customer, Employee employee) throws SQLException {
         this.customer = customer;
@@ -22,85 +25,104 @@ public class Controller_A {
     }
 
     public Employee login() {
-            String personalNumber;
-            String pin;
-            Scanner sc = new Scanner(System.in);
+        String personalNumber;
+        String pin;
+        Scanner sc = new Scanner(System.in);
 
-            while (true) {
-                System.out.println("personalNumber(AAMMDD-XXXX): ");
-                personalNumber = sc.nextLine().trim();
-                System.out.println("pin: ");
-                pin = sc.nextLine().trim();
-                this.employee = rep.checkpassword(personalNumber, pin);
-                if (employee != null)
-                    break;
-            }
-            return this.employee;
+        while (true) {
+            System.out.println("personalNumber(AAMMDD-XXXX): ");
+            personalNumber = sc.nextLine().trim();
+            System.out.println("pin: ");
+            pin = sc.nextLine().trim();
+            this.employee = rep.checkpassword(personalNumber, pin);
+            if (employee != null)
+                break;
         }
-
-
-        public void addNewCustomer() {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Insert firstname: ");
-            String firstname = sc.nextLine().trim();
-            System.out.println("Insert lastname: ");
-            String lastname = sc.nextLine().trim();
-            System.out.println("Insert lastname: ");
-            String personalnumber = sc.nextLine().trim();
-            System.out.println("Insert pin: "); //check om det finns
-            String pin = sc.nextLine().trim();
-            rep.add_newCustomer(firstname, lastname, personalnumber,pin);
-        }
-
-
-        public void showAllCustomer() {
-            System.out.println("all customers: ");
-            rep.getAllCustomer().forEach((k, v) -> v.print());
-            System.out.println();
-        }
-
-
-        public Customer selectCustomer() {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Insert customer personal Number: ");
-            String pernumInp = sc.nextLine().trim();
-            this.customer = rep.getCustomer(pernumInp);
-            return this.customer;
-            }
-
-        public void deleteCustomer(Customer customer, Employee employee) {
-            rep.deleteCustomer(customer.getPersonalNumber());
+        return this.employee;
     }
 
-        public void updateCustomerLastname(){
-            Scanner sc = new Scanner(System.in);
-            System.out.println("What is the new lastname? ");
-            String newLastname = sc.nextLine().trim();
-            rep.updateCustomerLastname(newLastname,customer.getPersonalNumber());
-        }
 
-        public void updateCustomerFirstname(){
-            Scanner sc = new Scanner(System.in);
-            System.out.println("What is the new firstname? ");
-            String newfirstname = sc.nextLine().trim();
-            rep.updateCustomerFirstname(newfirstname,customer.getPersonalNumber());
-        }
+    public void addNewCustomer() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Insert firstname: ");
+        String firstname = sc.nextLine().trim();
+        System.out.println("Insert lastname: ");
+        String lastname = sc.nextLine().trim();
+        System.out.println("Insert lastname: ");
+        String personalnumber = sc.nextLine().trim();
+        System.out.println("Insert pin: "); //check om det finns
+        String pin = sc.nextLine().trim();
+        rep.add_newCustomer(firstname, lastname, personalnumber, pin);
+    }
 
-        public void updateCustomerPersonalNumber(){
-            Scanner sc = new Scanner(System.in);
-            System.out.println("What is the new personalNumber? ");
-            String newPersonalNumber = sc.nextLine().trim();
-            rep.updateCustomerPersonalNumber(newPersonalNumber,customer.getPersonalNumber());
 
-        }
+    public void showAllCustomer() {
+        System.out.println("all customers: ");
+        rep.getAllCustomer().forEach((k, v) -> v.print());
+        System.out.println();
+    }
 
-        public void changeCustomerPin(){
-            Scanner sc = new Scanner(System.in);
-            System.out.println("What is the new password? ");
-            String newPassword = sc.nextLine().trim();
-            rep.changeCustomerPin(newPassword,customer.getId());
 
-        }
+    public Customer selectCustomer() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Insert customer personal Number: ");
+        String pernumInp = sc.nextLine().trim();
+        this.customer = rep.getCustomer(pernumInp);
+        return this.customer;
+    }
+
+    public void deleteCustomer(Customer customer, Employee employee) {
+        rep.deleteCustomer(customer.getPersonalNumber());
+    }
+
+    public void updateCustomerLastname() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("What is the new lastname? ");
+        String newLastname = sc.nextLine().trim();
+        rep.updateCustomerLastname(newLastname, customer.getPersonalNumber());
+    }
+
+    public void updateCustomerFirstname() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("What is the new firstname? ");
+        String newfirstname = sc.nextLine().trim();
+        rep.updateCustomerFirstname(newfirstname, customer.getPersonalNumber());
+    }
+
+    public void updateCustomerPersonalNumber() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("What is the new personalNumber? ");
+        String newPersonalNumber = sc.nextLine().trim();
+        rep.updateCustomerPersonalNumber(newPersonalNumber, customer.getPersonalNumber());
+
+    }
+
+    public void changeCustomerPin() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("What is the new password? ");
+        String newPassword = sc.nextLine().trim();
+        rep.changeCustomerPin(newPassword, customer.getId());
+
+    }
+
+    public void showAllLoans(){
+        List<Loan> loanList = rep.getAllLoan(customer.getId());
+        loanList.stream().forEach(loan -> loan.print());
+
+
+    }
+
+
+    public void changeLoanInterest() {
+        showAllLoans();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Which loan do you want to choose? ");
+        int loanId = sc.nextInt();
+        System.out.println("What is the new insterest now? ");
+        double newInterest = sc.nextDouble();
+        rep.changeLoanInterest(newInterest,loanId);
+
+    }
 
 
 /*

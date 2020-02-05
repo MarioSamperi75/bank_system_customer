@@ -4,9 +4,7 @@ import se.nackademin.model.*;
 
 import java.io.FileInputStream;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 public class Repository_A {
 
@@ -102,7 +100,7 @@ public class Repository_A {
 
             while (result.next()) {
                         customerFound = new Customer(
-                        result.getInt("customer.id"),
+                        result.getInt("id"),
                         result.getString("firstname"),
                         result.getString("lastname"),
                         result.getString("personalnumber"));
@@ -252,8 +250,9 @@ public class Repository_A {
 
     }
 
-/*
+
 //hej
+    /*
 
     public Map<Integer, Account> getAllAccount(int customerIDInp) {
         Map<Integer, Account> allAccount = new HashMap<>();
@@ -274,50 +273,22 @@ public class Repository_A {
             result = stmt.executeQuery();
 
             while (result.next()) {
-*//*                if (checkShoesId == shoesFound.getInt("IDshoes")) {
-                    Category category = new Category(shoesFound.getInt("categoryID"), shoesFound.getString("Category"));
-                    categoryList.add (category);*//*
-                    Account account = new Account(result.getInt("accountID"),
-                                                  result.getString("accountNr"),
-                                                  result.getDouble("balance"),
-                                                  result.getDouble("intrest"));
-                    allAccount.put(mapCounter, account);
-                    mapCounter++;
-               *//* }
-                else {
-                    categoryList = new ArrayList<>();
-                    Brand brand = new Brand(shoesFound.getInt("brandID"), shoesFound.getString("Brand"));
-                    Color color = new Color(shoesFound.getInt("colorID"), shoesFound.getString("Color"));
-                    Account. category = new Category(shoesFound.getInt("categoryID"), shoesFound.getString("Category"));
-                    categoryList.add(category);
-                    Shoes shoes = new Shoes(shoesFound.getInt("IDshoes"), shoesFound.getString("model"),
-                            shoesFound.getString("size"), shoesFound.getInt("price"),
-                            shoesFound.getInt("storage"));
-                    shoes.setBrand(brand);
-                    shoes.setColor(color);
-                    shoes.setCategoryList(categoryList);
-                    allshoes.put(mapCounter, shoes);
 
-                    checkShoesId = shoesFound.getInt("IDshoes");
-                    mapCounter++;
-
-                }
-            }*//*
-        } }catch (Exception e) {
+            }
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
         return allAccount;
     }
+    */
 
 
-    public Map<Integer, Loan> getAllLoan(int customerIDInp) {
-        Map<Integer, Loan> allLoan = new HashMap<>();
-        //List<Category> categoryList = new ArrayList<>();
-        int mapCounter = 1;
-        int checkShoesId = 0;
+    public List<Loan> getAllLoan(int customerIDInp) {
+        List<Loan> loanList = new ArrayList<>();
+
         String query = "SELECT * from loan_view where customerID = ? group by loanID;";
         ResultSet result = null;
-
 
         try (Connection con = DriverManager.getConnection(
                 p.getProperty("connectionString"),
@@ -333,34 +304,31 @@ public class Repository_A {
                         result.getString("loanNr"),
                         result.getDouble("capital"),
                         result.getDouble("intrest"));
-                allLoan.put(mapCounter, loan);
-                mapCounter++;
-               *//* }
-                else {
-                    categoryList = new ArrayList<>();
-                    Brand brand = new Brand(shoesFound.getInt("brandID"), shoesFound.getString("Brand"));
-                    Color color = new Color(shoesFound.getInt("colorID"), shoesFound.getString("Color"));
-                    Account. category = new Category(shoesFound.getInt("categoryID"), shoesFound.getString("Category"));
-                    categoryList.add(category);
-                    Shoes shoes = new Shoes(shoesFound.getInt("IDshoes"), shoesFound.getString("model"),
-                            shoesFound.getString("size"), shoesFound.getInt("price"),
-                            shoesFound.getInt("storage"));
-                    shoes.setBrand(brand);
-                    shoes.setColor(color);
-                    shoes.setCategoryList(categoryList);
-                    allshoes.put(mapCounter, shoes);
-
-                    checkShoesId = shoesFound.getInt("IDshoes");
-                    mapCounter++;
-
-                }
-            }*//*
-            } }catch (Exception e) {
+                loanList.add(loan);
+            }
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
-        return allLoan;
+        return loanList;
     }
 
+    public void changeLoanInterest(double newInterest,int loanIdInp){
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"), p.getProperty("name"), p.getProperty("password"));
+
+             CallableStatement stmt = con.prepareCall("update loan set loan.intrest = ? where loan.id = ?;")) {
+
+            stmt.setDouble(1, newInterest);
+            stmt.setInt(2, loanIdInp);
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+/*
 
     public int getAccountID(String accountNrInp) {
         String query = "SELECT account.id FROM bankdb.account\n" +
