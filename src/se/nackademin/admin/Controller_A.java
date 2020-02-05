@@ -9,8 +9,8 @@ import java.util.Scanner;
 public class Controller_A {
 
     Repository_A rep = new Repository_A();
-    Customer customer;
-    Employee employee;
+    Customer customer=null;
+    Employee employee=null;
 
 
 
@@ -68,12 +68,8 @@ public class Controller_A {
             return this.customer;
             }
 
-        public void deleteCustomer() {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Insert customer personal Number: ");
-            String pernumInp = sc.nextLine().trim();
-            this.customer = rep.getCustomer(pernumInp);
-
+        public void deleteCustomer(Customer customer, Employee employee) {
+            rep.deleteCustomer(customer.getPersonalNumber());
     }
 
 

@@ -47,8 +47,7 @@ public class View2 {
             String input = scanner.nextLine();
             switch (input) {
                 case "1":
-                    /*controllerA.showAllAccount();
-                    controllerA.showAllLoan();*/
+                    controllerA.deleteCustomer(customer, employee);
                     break;
                 case "2":
                    /* System.out.print("Add amount you want to withdraw: ");

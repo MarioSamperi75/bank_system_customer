@@ -186,7 +186,8 @@ public class Repository_A {
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setString(1, personalNumberID);
-            result = stmt.executeQuery();
+            stmt.executeUpdate();
+            System.out.println("Delete successfull");
 
 
         } catch (Exception e) {
