@@ -199,6 +199,66 @@ public class Repository_A {
     }
 
 
+    public void updateCustomerLastname(String newLastname, String personalNr){
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"), p.getProperty("name"), p.getProperty("password"));
+
+             CallableStatement stmt = con.prepareCall("update person set person.lastname = ? where person.personalnumber = ?;")) {
+
+            stmt.setString(1, newLastname);
+            stmt.setString(2, personalNr);
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateCustomerFirstname(String newFirstname, String personalNr){
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"), p.getProperty("name"), p.getProperty("password"));
+
+             CallableStatement stmt = con.prepareCall("update person set person.firstname = ? where person.personalnumber = ?;")) {
+
+            stmt.setString(1, newFirstname);
+            stmt.setString(2, personalNr);
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateCustomerPersonalNumber(String newPersonnumber, String personalNr){
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"), p.getProperty("name"), p.getProperty("password"));
+
+             CallableStatement stmt = con.prepareCall("update person set person.personalnumber = ? where person.personalnumber = ?;")) {
+
+            stmt.setString(1, newPersonnumber);
+            stmt.setString(2, personalNr);
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeCustomerPin(String newCustomerPin, int customerIdInp){
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"), p.getProperty("name"), p.getProperty("password"));
+
+             CallableStatement stmt = con.prepareCall("update customer set customer.pin = ? where customer.id = ?;")) {
+
+            stmt.setString(1, newCustomerPin);
+            stmt.setInt(2, customerIdInp);
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
     public void createAccount( String accountNrInp, double balanceInp,  double interestInp,  int customerIdInp ) {
         String query = "call create_new_account(?,?, ?, ?);";
 

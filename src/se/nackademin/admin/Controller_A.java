@@ -69,9 +69,42 @@ public class Controller_A {
             }
 
         public void deleteCustomer(Customer customer) {
-            rep.deleteCustomer(customer.getPersonalNumber());
+        rep.deleteCustomer(customer.getPersonalNumber());
     }
-// accountNrInp varchar(50),balance double, interestInp double,   customerIdInp int
+
+
+    public void updateCustomerLastname(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("What is the new lastname? ");
+        String newLastname = sc.nextLine().trim();
+        rep.updateCustomerLastname(newLastname,customer.getPersonalNumber());
+    }
+
+    public void updateCustomerFirstname(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("What is the new firstname? ");
+        String newfirstname = sc.nextLine().trim();
+        rep.updateCustomerFirstname(newfirstname,customer.getPersonalNumber());
+    }
+
+    public void updateCustomerPersonalNumber(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("What is the new personalNumber? ");
+        String newPersonalNumber = sc.nextLine().trim();
+        rep.updateCustomerPersonalNumber(newPersonalNumber,customer.getPersonalNumber());
+
+    }
+
+    public void changeCustomerPin(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("What is the new password? ");
+        String newPassword = sc.nextLine().trim();
+        rep.changeCustomerPin(newPassword,customer.getId());
+
+    }
+
+
+
         public Customer newAccount(Customer customer) {
 
             Double interestInp=null;
@@ -102,25 +135,6 @@ public class Controller_A {
             return this.customer;
         }
 
-/*
-        public void showAllProductsInYourCart() {
-            System.out.println("Your cart: ");
-            rep.getProductsInTheCart(customer.getId(), orderId).forEach(c -> c.print());
-            System.out.println();
-        }
 
-
-        public void newOrder() {
-            orderId = 0;
-            System.out.println("New order - Your cart is empty.");
-        }
-
-
-    public void exit() {
-        System.out.println("See you soon!");
-        System.exit(0);
-    }
-
-*/
 
 }

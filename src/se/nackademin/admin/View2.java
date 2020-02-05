@@ -22,9 +22,7 @@ public class View2 {
         start();
     }
 
-    /*public View2() throws SQLException {
-        start();
-    }*/
+
 
     //METHODS
     public void start() throws SQLException {
@@ -49,7 +47,8 @@ public class View2 {
                     View1 v1 = new View1();
                     break;
                 case "2":
-
+                    ViewCustomerDataUpdate viewCustomerDataUpdate = new ViewCustomerDataUpdate(customer,employee);
+                    viewCustomerDataUpdate.start();
                     break;
                case "3":
                    controllerA.newAccount(customer);
