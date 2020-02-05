@@ -68,6 +68,6 @@ public class Customer extends Person {
 
 
     public void print() {
-        System.out.println("Firstname: " + getFirstname() + "\tLastname: " + getLastname() + "88\tPersonalNr: " + getPersonalNumber());
+        System.out.println("Firstname: " + getFirstname() + "\tLastname: " + getLastname() + "\tPersonalNr: " + getPersonalNumber());
     }
 }

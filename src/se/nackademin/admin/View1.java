@@ -49,9 +49,12 @@ public class View1 {
                     controllerA.selectAndWitdraw(withdrawal, accountNr);*/
                     break;
                case "3":
-
+                   View2 v2=null;
                    Customer customer = controllerA.selectCustomer();
-                   View2 v2 = new View2(customer, employee);
+                   if (!(customer == null))
+                         v2 = new View2(customer, employee);
+                   else
+                     break;
                    break;
 
                 case "4":
@@ -70,7 +73,6 @@ public class View1 {
     public static void main(String[] args) throws SQLException {
         View1 view1 = new View1();
         view1.start();
-
         view1.menu();
     }
 }
