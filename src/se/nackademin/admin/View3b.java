@@ -23,7 +23,9 @@ public class View3b {
     //METHODS
     public void start() throws SQLException {
         System.out.println();
-        System.out.println("                    *****CustomerXXX, LoanXXX *****");
+        System.out.println("                                    ***** Loan *****");
+        System.out.println("                ***** Employee: "+ employee.getFirstname() + " " + employee.getLastname()+
+                                            "  Customer: " + customer.getFirstname() + " " + customer.getLastname()+ " *****");
         System.out.println();
         menu();
     }
@@ -40,18 +42,13 @@ public class View3b {
                     controllerA.changeLoanInterest(customer);
                     break;
                 case "2":
-                    System.out.println("not implemented");
-                 /*   System.out.print("Add amount you want to withdraw: ");
-                    String input2 = scanner.nextLine().trim();
-                    Double withdrawal = Double.parseDouble(input2);
-
-                    System.out.print("Add account Nr: ");
-                    String accountNr = scanner.nextLine().trim();
-
-                    controllerA.selectAndWitdraw(withdrawal, accountNr);
-                    break;*/
-               case "3":
-                   System.out.println("not implemented");
+                    controllerA.showAllLoans(customer);
+                    System.out.print("which loan do you want to examinate?");
+                    String loannr = scanner.nextLine().trim();
+                    controllerA.calculateShowPaymentPlan(loannr);
+                break;
+                case "3":
+                   controllerA.updatePlan(customer);
                     break;
 
 

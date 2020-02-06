@@ -57,6 +57,6 @@ public class Account {
 
 
     public void print() {
-        System.out.println("Account Nr: " + getAccountNr() + "\tBalance: " + getBalance() + "KR  \tIntrest: " + getIntrest()+"%");
+        System.out.println(getId() + " Account Nr: " + getAccountNr() + "\tBalance: " + getBalance() + "KR  \tIntrest: " + getIntrest()+"%");
     }
 }

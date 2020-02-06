@@ -256,6 +256,36 @@ public class Repository_A {
 
 
 
+    public void createNewLoan(String loanNr, double capital, int interestRate, int customerId, int employeeId) {
+        String query = "call new_loan(?,?,?,?,?);";
+
+        try (Connection con = DriverManager.getConnection(
+                p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+             CallableStatement stmt = con.prepareCall(query)) {
+
+            stmt.setString (1, loanNr);
+            stmt.setDouble (2, capital);
+            stmt.setInt (3, interestRate);
+            stmt.setInt (4, customerId);
+            stmt.setInt (5, employeeId);
+
+            stmt.executeQuery();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println( "Error. Operation aborted.");
+            System.exit(0);
+
+        }
+        System.out.println( "New loan created");
+    }
+
+
+
+
+
 
     public void createAccount( String accountNrInp, double balanceInp,  double interestInp,  int customerIdInp ) {
         String query = "call create_new_account(?,?, ?, ?);";
@@ -281,6 +311,36 @@ public class Repository_A {
         }
         System.out.println( "New Account created");
     }
+
+    public List<Account> getAllAccount(int customerIDInp) {
+        List<Account> accountList = new ArrayList<>();
+
+        String query = "SELECT * from account_view where customerID = ? group by accountID;";
+        ResultSet result = null;
+
+        try (Connection con = DriverManager.getConnection(
+                p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, customerIDInp);
+            result = stmt.executeQuery();
+
+            while (result.next()) {
+                Account account = new Account(result.getInt("accountID"),
+                        result.getString("accountNr"),
+                        result.getDouble("balance"),
+                        result.getDouble("intrest"));
+                accountList.add(account);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return accountList;
+    }
+
 
 
     public void deleteAccount(String accountNr, int customeridInp) throws SQLException {
@@ -327,167 +387,10 @@ public class Repository_A {
 
 
 
-
-    public List<Loan> getAllLoan(int customerIDInp) {
-        List<Loan> loanList = new ArrayList<>();
-
-        String query = "SELECT * from loan_view where customerID = ? group by loanID;";
-        ResultSet result = null;
-
-        try (Connection con = DriverManager.getConnection(
-                p.getProperty("connectionString"),
-                p.getProperty("name"),
-                p.getProperty("password"));
-             PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setInt(1, customerIDInp);
-            result = stmt.executeQuery();
-
-            while (result.next()) {
-                Loan loan = new Loan(result.getInt("loanID"),
-                        result.getString("loanNr"),
-                        result.getDouble("capital"),
-                        result.getDouble("intrest"));
-                loanList.add(loan);
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return loanList;
-    }
-
-
-
-    public void changeLoanInterest(double newInterest,int loanIdInp){
-        try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"), p.getProperty("name"), p.getProperty("password"));
-
-             CallableStatement stmt = con.prepareCall("update loan set loan.intrest = ? where loan.id = ?;")) {
-
-            stmt.setDouble(1, newInterest);
-            stmt.setInt(2, loanIdInp);
-            stmt.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
-/*
-
-    public Map<Integer, Account> getAllAccount(int customerIDInp) {
-        Map<Integer, Account> allAccount = new HashMap<>();
-        //List<Category> categoryList = new ArrayList<>();
-        int mapCounter = 1;
-        int checkShoesId = 0;
-        String query = "SELECT * from account_view where customerID = ? group by accountID;";
-        ResultSet result = null;
-
-
-        try (Connection con = DriverManager.getConnection(
-                p.getProperty("connectionString"),
-                p.getProperty("name"),
-                p.getProperty("password"));
-             PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setInt(1, customerIDInp);
-            result = stmt.executeQuery();
-
-            while (result.next()) {
-               if (checkShoesId == shoesFound.getInt("IDshoes")) {
-                    Category category = new Category(shoesFound.getInt("categoryID"), shoesFound.getString("Category"));
-                    categoryList.add (category);
-                    Account account = new Account(result.getInt("accountID"),
-                                                  result.getString("accountNr"),
-                                                  result.getDouble("balance"),
-                                                  result.getDouble("intrest"));
-                    allAccount.put(mapCounter, account);
-                    mapCounter++;
-                }
-                else {
-                    categoryList = new ArrayList<>();
-                    Brand brand = new Brand(shoesFound.getInt("brandID"), shoesFound.getString("Brand"));
-                    Color color = new Color(shoesFound.getInt("colorID"), shoesFound.getString("Color"));
-                    Account. category = new Category(shoesFound.getInt("categoryID"), shoesFound.getString("Category"));
-                    categoryList.add(category);
-                    Shoes shoes = new Shoes(shoesFound.getInt("IDshoes"), shoesFound.getString("model"),
-                            shoesFound.getString("size"), shoesFound.getInt("price"),
-                            shoesFound.getInt("storage"));
-                    shoes.setBrand(brand);
-                    shoes.setColor(color);
-                    shoes.setCategoryList(categoryList);
-                    allshoes.put(mapCounter, shoes);
-
-                    checkShoesId = shoesFound.getInt("IDshoes");
-                    mapCounter++;
-
-                }
-            }
-        } }catch (Exception e) {
-            e.printStackTrace();
-        }
-        return allAccount;
-    }
-
-
-    public Map<Integer, Loan> getAllLoan(int customerIDInp) {
-        Map<Integer, Loan> allLoan = new HashMap<>();
-        //List<Category> categoryList = new ArrayList<>();
-        int mapCounter = 1;
-        int checkShoesId = 0;
-        String query = "SELECT * from loan_view where customerID = ? group by loanID;";
-        ResultSet result = null;
-
-
-        try (Connection con = DriverManager.getConnection(
-                p.getProperty("connectionString"),
-                p.getProperty("name"),
-                p.getProperty("password"));
-             PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setInt(1, customerIDInp);
-            result = stmt.executeQuery();
-
-            while (result.next()) {
-                Loan loan = new Loan(result.getInt("loanID"),
-                        result.getString("loanNr"),
-                        result.getDouble("capital"),
-                        result.getDouble("intrest"));
-                allLoan.put(mapCounter, loan);
-                mapCounter++;
-                }
-                else {
-                    categoryList = new ArrayList<>();
-                    Brand brand = new Brand(shoesFound.getInt("brandID"), shoesFound.getString("Brand"));
-                    Color color = new Color(shoesFound.getInt("colorID"), shoesFound.getString("Color"));
-                    Account. category = new Category(shoesFound.getInt("categoryID"), shoesFound.getString("Category"));
-                    categoryList.add(category);
-                    Shoes shoes = new Shoes(shoesFound.getInt("IDshoes"), shoesFound.getString("model"),
-                            shoesFound.getString("size"), shoesFound.getInt("price"),
-                            shoesFound.getInt("storage"));
-                    shoes.setBrand(brand);
-                    shoes.setColor(color);
-                    shoes.setCategoryList(categoryList);
-                    allshoes.put(mapCounter, shoes);
-
-                    checkShoesId = shoesFound.getInt("IDshoes");
-                    mapCounter++;
-
-                }
-            }
-            } }catch (Exception e) {
-            e.printStackTrace();
-        }
-        return allLoan;
-    }
-
-
     public int getAccountID(String accountNrInp) {
         String query = "SELECT account.id FROM bankdb.account\n" +
-                        "where accountNr = ? \n" +
-                        "limit 1;";
+                "where accountNr = ? \n" +
+                "limit 1;";
         ResultSet result = null;
         int accountIdFound = 0;
         int resultCounter = 0;
@@ -533,7 +436,7 @@ public class Repository_A {
             stmt.setInt(1, accountId);
             stmt.setDouble(2, withdrawal);
 
-            result = stmt.executeQuery(); //che fai con sta variabile
+            result = stmt.executeQuery();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -546,16 +449,135 @@ public class Repository_A {
 
 
 
-    public int getLastOrdersID(int customerIdInp) {
-        String query =  "SELECT ordereditem.ordersID FROM ordereditem\n" +
-                        "inner join orders\n" +
-                        "on orders.id = ordereditem.ordersid\n" +
-                        "and orders.customerId = ?\n" +
-                        "order by ordereditem.id desc\n" +
-                        "limit 1;";
+    public void deposit( int accountId, double amount) {
+        String query = "call deposit(?,?);";
+        ResultSet result = null;
+
+        try (Connection con = DriverManager.getConnection(
+                p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+             CallableStatement stmt = con.prepareCall(query)) {
+
+            stmt.setInt(1, accountId);
+            stmt.setDouble(2, amount);
+
+            result = stmt.executeQuery();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println( "Error. Operation aborted.");
+            System.exit(0);
+
+        }
+        System.out.println( "Transaction Complete");
+    }
+
+
+
+
+
+
+
+
+    public List<Loan> getAllLoan(int customerIDInp) {
+        List<Loan> loanList = new ArrayList<>();
+
+        String query = "SELECT * from loan_view where customerID = ? group by loanID;";
+        ResultSet result = null;
+
+        try (Connection con = DriverManager.getConnection(
+                p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, customerIDInp);
+            result = stmt.executeQuery();
+
+            while (result.next()) {
+                Loan loan = new Loan(result.getInt("loanID"),
+                        result.getString("loanNr"),
+                        result.getDouble("capital"),
+                        result.getDouble("intrest"));
+                loanList.add(loan);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return loanList;
+    }
+
+
+    public void changeAccountInterest(double newInterest,int accountIdInp){
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"), p.getProperty("name"), p.getProperty("password"));
+
+             CallableStatement stmt = con.prepareCall("update account set account.intrest = ? where account.id = ?;")) {
+
+            stmt.setDouble(1, newInterest);
+            stmt.setInt(2, accountIdInp);
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
+    public void changeLoanInterest(double newInterest,int loanIdInp){
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"), p.getProperty("name"), p.getProperty("password"));
+
+             CallableStatement stmt = con.prepareCall("update loan set loan.intrest = ? where loan.id = ?;")) {
+
+            stmt.setDouble(1, newInterest);
+            stmt.setInt(2, loanIdInp);
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void setFinalPayment( int loanId) {
+        String query = "call set_final_payement(?);";
+        ResultSet result = null;
+        System.out.println("loanId" + loanId);
+        try (Connection con = DriverManager.getConnection(
+                p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+             CallableStatement stmt = con.prepareCall(query)) {
+
+            stmt.setInt(1, loanId);
+
+            result = stmt.executeQuery();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println( "Error. Operation aborted.");
+            System.exit(0);
+
+        }
+
+    }
+
+
+    public Map<Loan, Plan> getPlan(String loanNrInp) {
+        Map<Loan, Plan> payPlan = new HashMap<>();
+        String query =  "SELECT loan.id, loannr, capital, intrest, " +
+                        "paymentprogram.id, years, finalamount FROM bankdb.loan\n" +
+                        "inner join paymentprogram\n" +
+                        "on loan.paymentprogramid = paymentprogram.id\n" +
+                        "where loan.loannr = ?;";
 
         ResultSet result = null;
-        int customerIdFound = 0;
+        Loan loanFound = null;
+        Plan planfound = null;
         int resultCounter = 0;
 
         try (Connection con = DriverManager.getConnection(
@@ -564,81 +586,74 @@ public class Repository_A {
                 p.getProperty("password"));
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setInt(1, customerIdInp);
+            stmt.setString(1, loanNrInp);
             result = stmt.executeQuery();
 
             while (result.next()) {
-                customerIdFound = result.getInt("orderedItem.ordersID");
+                loanFound = new Loan(
+                        result.getInt("loan.id"),
+                        result.getString("loan.loannr"),
+                        result.getDouble("loan.capital"),
+                        result.getDouble("loan.intrest")
+                );
+                setFinalPayment(loanFound.getId());
+
+                planfound = new Plan (
+                        result.getInt("paymentprogram.id"),
+                        result.getInt("paymentprogram.years"),
+                        result.getDouble("paymentprogram.finalamount")
+
+                );
+                payPlan.put(loanFound, planfound);
                 resultCounter++;
             }
             // det kan inte hända
             if (resultCounter == 0)
-                System.out.println("Product not found");
+                System.out.println("Customer not found");
 
             if (resultCounter > 1) {
                 System.out.println("Sorry, an error occurred. Contact the Administrator.");
-                return -1;
+                return null; //eller exit, men det kan inte hända
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return customerIdFound;
+        return payPlan;
     }
 
 
+    public void updatePlan(int newyears, String loannr){
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"), p.getProperty("name"), p.getProperty("password"));
 
+             CallableStatement stmt = con.prepareCall(
+                     "update payplan set payplan.years = ? where loannr = ?;")) {
 
-    public List<Shoes> getProductsInTheCart(int customerIdInp, int orderIdInp) {
-        List<Shoes> shoesList = new ArrayList<>();
-        List<Category> categoryList = new ArrayList<>();
-        int checkOrderedItemId = 0;
-        String query =  "SELECT * from all_the_orderedItems" +
-                        " where IDcustomer = ? and IDorder = ?;";
-        ResultSet shoesFound = null;
+            stmt.setInt(1, newyears);
+            stmt.setString(2, loannr);
+            stmt.executeUpdate();
 
-        try (Connection con = DriverManager.getConnection(
-                p.getProperty("connectionString"),
-                p.getProperty("name"),
-                p.getProperty("password"));
-             PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setInt(1, customerIdInp);
-            stmt.setInt(2, orderIdInp);
-            shoesFound = stmt.executeQuery();
-
-            while (shoesFound.next()) {
-                if (checkOrderedItemId == shoesFound.getInt("IDorderedItem")
-|| checkShoesId == shoesFound.getInt("IDShoes")
-) {
-                    Category category = new Category(shoesFound.getInt("categoryID"), shoesFound.getString("Category"));
-                    categoryList.add (category);
-                }
-                else {
-                    categoryList = new ArrayList<>();
-                    Brand brand = new Brand(shoesFound.getInt("brandID"), shoesFound.getString("Brand"));
-                    Color color = new Color(shoesFound.getInt("colorID"), shoesFound.getString("Color"));
-                    Category category = new Category(shoesFound.getInt("categoryID"), shoesFound.getString("Category"));
-                    categoryList.add(category);
-                    Shoes shoes = new Shoes(shoesFound.getInt("IDshoes"), shoesFound.getString("model"),
-                                            shoesFound.getString("size"), shoesFound.getInt("price"),
-                                            shoesFound.getInt("storage"));
-                    shoes.setBrand(brand);
-                    shoes.setColor(color);
-                    shoes.setCategoryList(categoryList);
-                    shoesList.add(shoes);
-
-                    checkOrderedItemId = shoesFound.getInt("IDorderedItem");
-                }
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return shoesList;
+        System.out.println("The payment program is uppdated");
     }
 
-}
+   /* public void changeLoanInterest(double newInterest,int loanIdInp){
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"), p.getProperty("name"), p.getProperty("password"));
+
+             CallableStatement stmt = con.prepareCall("update loan set loan.intrest = ? where loan.id = ?;")) {
+
+            stmt.setDouble(1, newInterest);
+            stmt.setInt(2, loanIdInp);
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    */
 
 
 
-*/
 }

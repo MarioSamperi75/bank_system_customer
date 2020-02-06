@@ -1,11 +1,10 @@
 package se.nackademin.admin;
 
-import se.nackademin.model.Customer;
-import se.nackademin.model.Employee;
-import se.nackademin.model.Loan;
+import se.nackademin.model.*;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Controller_A {
@@ -113,11 +112,59 @@ public class Controller_A {
     }
 
 
+    public void selectAndWitdraw(Double withdrawal, String accountNr ) {
+        int accountId = rep.getAccountID(accountNr);
+        if (accountId!=0) {
+            rep.withdraw(accountId, withdrawal);
+        }
+    }
+
+    public void selectAndDeposit(Double amount, String accountNr ) {
+        int accountId = rep.getAccountID(accountNr);
+        if (accountId!=0) {
+            rep.withdraw(accountId, amount);
+        }
+    }
+
+
+
+    public void showAllAccount(Customer customer) {
+        List<Account> accountList = rep.getAllAccount(customer.getId());
+        accountList.stream().forEach(a -> a.print());
+    }
+
+
 
     public void showAllLoans(Customer customer) {
         List<Loan> loanList = rep.getAllLoan(customer.getId());
         loanList.stream().forEach(loan -> loan.print());
     }
+
+    public void changeAccountInterest(Customer customer) {
+        showAllAccount(customer);
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Which Account do you want to choose? ");
+        int accountId = sc.nextInt();
+        System.out.println("What is the new insterest now? ");
+        double newInterest = sc.nextDouble();
+        rep.changeAccountInterest(newInterest, accountId);
+    }
+
+
+    public void newLoan(Customer customer, Employee employee) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Insert a loanNumber");
+        String loanNr = sc.nextLine().trim();
+        System.out.println("Insert a capital");
+        double capital = sc.nextDouble();
+        System.out.println("Insert a interest rate");
+        int interestRate = sc.nextInt();
+        rep.createNewLoan(loanNr, capital, interestRate, customer.getId(), employee.getId());
+
+    }
+
+
+
 
     public void changeLoanInterest(Customer customer) {
         showAllLoans(customer);
@@ -161,5 +208,22 @@ public class Controller_A {
         }
 
 
+    public void calculateShowPaymentPlan(String loanNr) {
+        Map<Loan, Plan> plan = rep.getPlan(loanNr);
+        plan.forEach((k, v) -> v.print());
+
+    }
+
+    public void updatePlan(Customer customer){
+        showAllLoans(customer);
+        Scanner sc = new Scanner(System.in);
+        System.out.println("What is the new lenght? (years) ");
+        String input = sc.nextLine().trim();
+        int newyears= Integer.parseInt(input);
+        System.out.println("What is the Loannr? ");
+        String loannr = sc.nextLine().trim();
+        rep.updatePlan(newyears,loannr);
+
+    }
 
 }

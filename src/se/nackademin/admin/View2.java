@@ -55,11 +55,11 @@ public class View2 {
                     break;
 
                 case "4":
-                    //controllerA.showAllAccount(customer);
+                    controllerA.showAllAccount(customer);
                     break;
 
                 case "5":
-
+                    controllerA.newLoan(customer, employee);
                     break;
 
                 case "6":

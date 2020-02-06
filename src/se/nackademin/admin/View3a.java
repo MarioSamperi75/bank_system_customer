@@ -23,7 +23,9 @@ public class View3a {
     //METHODS
     public void start() throws SQLException {
         System.out.println();
-        System.out.println("                    *****CustomerXXX, AccountXXX *****");
+        System.out.println("                                   ***** Account *****");
+        System.out.println("                ***** Employee: "+ employee.getFirstname() + " " + employee.getLastname()+
+                                    "  Customer: " + customer.getFirstname() + " " + customer.getLastname()+ " *****");
         System.out.println();
         menu();
 
@@ -41,21 +43,28 @@ public class View3a {
                     controllerA.deleteAccount(customer);
                     break;
                 case "2":
-                   /* System.out.print("Add amount you want to withdraw: ");
+                    System.out.print("Add amount you want to deposit: ");
                     String input2 = scanner.nextLine().trim();
-                    Double withdrawal = Double.parseDouble(input2);
+                    Double amount = Double.parseDouble(input2);
 
                     System.out.print("Add account Nr: ");
                     String accountNr = scanner.nextLine().trim();
 
-                    controllerA.selectAndWitdraw(withdrawal, accountNr);*/
+                    controllerA.selectAndDeposit(amount, accountNr);
                     break;
                case "3":
+                   System.out.print("Add amount you want to withdraw: ");
+                   input2 = scanner.nextLine().trim();
+                   Double withdrawal = Double.parseDouble(input2);
 
-                    break;
+                   System.out.print("Add account Nr: ");
+                   accountNr = scanner.nextLine().trim();
+
+                   controllerA.selectAndWitdraw(withdrawal, accountNr);
+                   break;
 
                 case "4":
-
+                    controllerA.changeAccountInterest(customer);
                     break;
 
                 case "5":

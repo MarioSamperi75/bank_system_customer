@@ -43,7 +43,7 @@ public class View_C {
                     controllerC.selectAndWitdraw(withdrawal, accountNr);
                     break;
                case "3":
-                   System.out.println("Vill du få VG :)?");
+                   System.out.println("Ville du få VG utan grafisk interface:)?");
                     break;
 
                 case "4":
