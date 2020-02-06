@@ -11,8 +11,12 @@ import java.util.Scanner;
 public class View3a {
     Scanner scanner = new Scanner(System.in);
     Controller_A controllerA = new Controller_A();
+    Customer customer= new Customer();
+    Employee employee = new Employee();
 
     public View3a(Customer customer, Employee employee) throws SQLException {
+        this.customer = customer;
+        this.employee= employee;
         start();
     }
 
@@ -34,8 +38,7 @@ public class View3a {
             String input = scanner.nextLine();
             switch (input) {
                 case "1":
-                    /*controllerA.showAllAccount();
-                    controllerA.showAllLoan();*/
+                    controllerA.deleteAccount(customer);
                     break;
                 case "2":
                    /* System.out.print("Add amount you want to withdraw: ");

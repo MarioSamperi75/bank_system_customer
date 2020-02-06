@@ -283,6 +283,50 @@ public class Repository_A {
     }
 
 
+    public void deleteAccount(String accountNr, int customeridInp) throws SQLException {
+        deleteManageAccount(accountNr);
+
+        String query = "delete from account where customerid = ? and accountnr = ?;";
+        ResultSet result = null;
+
+        try (Connection con = DriverManager.getConnection(
+                p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, customeridInp);
+            stmt.setString(2, accountNr);
+            stmt.executeUpdate();
+            System.out.println("Delete from account successfull");
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void deleteManageAccount(String accountNr) {
+        String query = "delete from manageaccount where accountid = (select id from account where accountnr = ? );";
+        ResultSet result = null;
+
+        try (Connection con = DriverManager.getConnection(
+                p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, accountNr);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     public List<Loan> getAllLoan(int customerIDInp) {
         List<Loan> loanList = new ArrayList<>();
@@ -312,6 +356,8 @@ public class Repository_A {
         }
         return loanList;
     }
+
+
 
     public void changeLoanInterest(double newInterest,int loanIdInp){
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"), p.getProperty("name"), p.getProperty("password"));

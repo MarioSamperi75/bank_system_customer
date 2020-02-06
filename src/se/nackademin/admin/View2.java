@@ -55,7 +55,7 @@ public class View2 {
                     break;
 
                 case "4":
-                    System.out.println(customer.getId() + customer.getFirstname());
+                    //controllerA.showAllAccount(customer);
                     break;
 
                 case "5":
