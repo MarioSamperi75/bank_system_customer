@@ -4,9 +4,7 @@ import se.nackademin.model.*;
 
 import java.io.FileInputStream;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 public class Repository_A {
 
@@ -282,6 +280,52 @@ public class Repository_A {
 
         }
         System.out.println( "New Account created");
+    }
+
+
+
+    public List<Loan> getAllLoan(int customerIDInp) {
+        List<Loan> loanList = new ArrayList<>();
+
+        String query = "SELECT * from loan_view where customerID = ? group by loanID;";
+        ResultSet result = null;
+
+        try (Connection con = DriverManager.getConnection(
+                p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, customerIDInp);
+            result = stmt.executeQuery();
+
+            while (result.next()) {
+                Loan loan = new Loan(result.getInt("loanID"),
+                        result.getString("loanNr"),
+                        result.getDouble("capital"),
+                        result.getDouble("intrest"));
+                loanList.add(loan);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return loanList;
+    }
+
+    public void changeLoanInterest(double newInterest,int loanIdInp){
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"), p.getProperty("name"), p.getProperty("password"));
+
+             CallableStatement stmt = con.prepareCall("update loan set loan.intrest = ? where loan.id = ?;")) {
+
+            stmt.setDouble(1, newInterest);
+            stmt.setInt(2, loanIdInp);
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 

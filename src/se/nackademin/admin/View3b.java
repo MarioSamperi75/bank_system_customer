@@ -2,14 +2,21 @@
 
 package se.nackademin.admin;
 
+import se.nackademin.model.Customer;
+import se.nackademin.model.Employee;
+
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class View3b {
     Scanner scanner = new Scanner(System.in);
     Controller_A controllerA = new Controller_A();
+    Customer customer = new Customer();
+    Employee employee = new Employee();
 
-    public View3b() throws SQLException {
+    public View3b(Customer customer, Employee employee) throws SQLException {
+        this.customer = customer;
+        this.employee = employee;
         start();
     }
 
@@ -30,10 +37,10 @@ public class View3b {
             String input = scanner.nextLine();
             switch (input) {
                 case "1":
-                 /*   controllerA.showAllAccount();
-                    controllerA.showAllLoan();*/
+                    controllerA.changeLoanInterest(customer);
                     break;
                 case "2":
+                    System.out.println("not implemented");
                  /*   System.out.print("Add amount you want to withdraw: ");
                     String input2 = scanner.nextLine().trim();
                     Double withdrawal = Double.parseDouble(input2);
@@ -44,7 +51,7 @@ public class View3b {
                     controllerA.selectAndWitdraw(withdrawal, accountNr);
                     break;*/
                case "3":
-
+                   System.out.println("not implemented");
                     break;
 
 

@@ -63,15 +63,15 @@ public class View2 {
                     break;
 
                 case "6":
-
+                    controllerA.showAllLoans(customer);
                     break;
 
                 case "7":
-                    View3a v3a = new View3a();
+                    View3a v3a = new View3a(customer, employee);
                     break;
 
                 case "8":
-                    View3b v3b= new View3b();
+                    View3b v3b= new View3b(customer, employee);
                     break;
 
                 case "9":

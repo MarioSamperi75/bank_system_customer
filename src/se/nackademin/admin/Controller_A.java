@@ -2,8 +2,10 @@ package se.nackademin.admin;
 
 import se.nackademin.model.Customer;
 import se.nackademin.model.Employee;
+import se.nackademin.model.Loan;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Controller_A {
@@ -103,7 +105,21 @@ public class Controller_A {
 
     }
 
+    public void showAllLoans(Customer customer) {
+        List<Loan> loanList = rep.getAllLoan(customer.getId());
+        loanList.stream().forEach(loan -> loan.print());
+    }
 
+    public void changeLoanInterest(Customer customer) {
+        showAllLoans(customer);
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Which loan do you want to choose? ");
+        int loanId = sc.nextInt();
+        System.out.println("What is the new insterest now? ");
+        double newInterest = sc.nextDouble();
+        rep.changeLoanInterest(newInterest,loanId);
+
+    }
 
         public Customer newAccount(Customer customer) {
 

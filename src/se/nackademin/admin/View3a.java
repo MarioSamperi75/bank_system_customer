@@ -2,6 +2,9 @@
 
 package se.nackademin.admin;
 
+import se.nackademin.model.Customer;
+import se.nackademin.model.Employee;
+
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -9,7 +12,7 @@ public class View3a {
     Scanner scanner = new Scanner(System.in);
     Controller_A controllerA = new Controller_A();
 
-    public View3a() throws SQLException {
+    public View3a(Customer customer, Employee employee) throws SQLException {
         start();
     }
 
