@@ -1,14 +1,14 @@
 package se.nackademin.model;
 
-public class Plan {
+public class PayPlan extends Loan{
     int id;
     int years;
     double finalAmount;
 
-    public Plan(int id, int years, double aDouble) {
-        this.id = id;
+    public PayPlan(int id, String loanNr, double capital, double intrest, int years, double finalAmount) {
+        super(id, loanNr, capital, intrest);
         this.years = years;
-        this.finalAmount = getFinalAmount();
+        this.finalAmount = finalAmount;
     }
 
     public int getId() {
@@ -36,6 +36,6 @@ public class Plan {
     }
 
     public void print() {
-        System.out.println("Years: " + getYears() +  "  Final amount: " + getFinalAmount());
+        System.out.println("Loannr: " + getLoanNr() +" Capital: " + getCapital() +" intrest: " + getIntrest() +  "Years: " + getYears() +"  Final amount: " + getFinalAmount());
     }
 }

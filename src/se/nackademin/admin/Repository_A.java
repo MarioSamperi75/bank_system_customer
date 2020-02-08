@@ -268,8 +268,8 @@ public class Repository_A {
             stmt.setString (1, loanNr);
             stmt.setDouble (2, capital);
             stmt.setInt (3, interestRate);
-            stmt.setInt (4, customerId);
-            stmt.setInt (5, employeeId);
+            stmt.setInt (5, customerId);
+            stmt.setInt (4, employeeId);
 
             stmt.executeQuery();
 
@@ -423,6 +423,43 @@ public class Repository_A {
     }
 
 
+    public int getLoanID(String loanNrInp) {
+        String query = "SELECT loan.id FROM bankdb.loan\n" +
+                "where loanNr = ? \n" +
+                "limit 1;";
+        ResultSet result = null;
+        int loanIdFound = 0;
+        int resultCounter = 0;
+
+        try (Connection con = DriverManager.getConnection(
+                p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, loanNrInp);
+            result = stmt.executeQuery();
+
+            while (result.next()) {
+                loanIdFound = result.getInt("loan.id");
+                resultCounter++;
+            }
+
+            if (resultCounter == 0)
+                System.out.println("loan not found");
+
+            if (resultCounter > 1) {
+                System.out.println("Sorry, an error occurred. Contact the Administrator.");
+                return -1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return loanIdFound;
+    }
+
+
+
     public void withdraw( int accountId, double withdrawal) {
         String query = "call withdraw(?,?);";
         ResultSet result = null;
@@ -546,7 +583,6 @@ public class Repository_A {
     public void setFinalPayment( int loanId) {
         String query = "call set_final_payement(?);";
         ResultSet result = null;
-        System.out.println("loanId" + loanId);
         try (Connection con = DriverManager.getConnection(
                 p.getProperty("connectionString"),
                 p.getProperty("name"),
@@ -567,17 +603,19 @@ public class Repository_A {
     }
 
 
-    public Map<Loan, Plan> getPlan(String loanNrInp) {
-        Map<Loan, Plan> payPlan = new HashMap<>();
-        String query =  "SELECT loan.id, loannr, capital, intrest, " +
-                        "paymentprogram.id, years, finalamount FROM bankdb.loan\n" +
-                        "inner join paymentprogram\n" +
-                        "on loan.paymentprogramid = paymentprogram.id\n" +
-                        "where loan.loannr = ?;";
+
+
+
+
+
+
+
+    public PayPlan showPayPlan(String loanNrInp) {
+        PayPlan payPlan = null;
+        String query =  "SELECT loanid, loannr, capital, intrest, years, finalamount FROM bankdb.payplan " +
+                        "where payplan.loannr = ?;";
 
         ResultSet result = null;
-        Loan loanFound = null;
-        Plan planfound = null;
         int resultCounter = 0;
 
         try (Connection con = DriverManager.getConnection(
@@ -590,21 +628,15 @@ public class Repository_A {
             result = stmt.executeQuery();
 
             while (result.next()) {
-                loanFound = new Loan(
-                        result.getInt("loan.id"),
-                        result.getString("loan.loannr"),
-                        result.getDouble("loan.capital"),
-                        result.getDouble("loan.intrest")
+                payPlan = new PayPlan(
+                        result.getInt("payplan.loanid"),
+                        result.getString("payplan.loannr"),
+                        result.getDouble("payplan.capital"),
+                        result.getDouble("payplan.intrest"),
+                        result.getInt("payplan.years"),
+                        result.getDouble("payplan.finalAmount")
                 );
-                setFinalPayment(loanFound.getId());
 
-                planfound = new Plan (
-                        result.getInt("paymentprogram.id"),
-                        result.getInt("paymentprogram.years"),
-                        result.getDouble("paymentprogram.finalamount")
-
-                );
-                payPlan.put(loanFound, planfound);
                 resultCounter++;
             }
             // det kan inte hända
@@ -621,8 +653,29 @@ public class Repository_A {
         return payPlan;
     }
 
+    /*public void getFinalAmount(int loanIdInp){
+        try (Connection con = DriverManager.getConnection(
+                p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+             PreparedStatement stmt = con.prepareStatement("call set_final_payement (?)")) {
 
-    public void updatePlan(int newyears, String loannr){
+            stmt.setInt(1,loanIdInp );
+            stmt.executeQuery();
+
+
+    } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }*/
+
+
+
+
+
+
+        public void updatePlan(int newyears, String loannr){
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"), p.getProperty("name"), p.getProperty("password"));
 
              CallableStatement stmt = con.prepareCall(

@@ -122,7 +122,7 @@ public class Controller_A {
     public void selectAndDeposit(Double amount, String accountNr ) {
         int accountId = rep.getAccountID(accountNr);
         if (accountId!=0) {
-            rep.withdraw(accountId, amount);
+            rep.deposit(accountId, amount);
         }
     }
 
@@ -209,8 +209,11 @@ public class Controller_A {
 
 
     public void calculateShowPaymentPlan(String loanNr) {
-        Map<Loan, Plan> plan = rep.getPlan(loanNr);
-        plan.forEach((k, v) -> v.print());
+        int loanId = rep.getLoanID(loanNr);
+        rep.setFinalPayment(loanId);
+        PayPlan payplan= rep.showPayPlan(loanNr);
+        payplan.print();
+
 
     }
 
